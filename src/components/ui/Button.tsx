@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { DefaultTheme } from "styled-components";
 import { useRouter } from "next/navigation";
 
-
 // Tipos para as cores do theme
 type ThemeColor = keyof DefaultTheme["colors"];
 
@@ -50,7 +49,7 @@ const StyledButton = styled.button.withConfig({
   align-items: ${(props) => (props.$hasIcon ? "center" : "initial")};
   justify-content: ${(props) => (props.$hasIcon ? "center" : "initial")};
   gap: ${(props) => (props.$hasIcon ? "8px" : "0")};
-
+  text-decoration: none;
   font-weight: ${(props) =>
     props.theme?.fonts?.weight?.semibold ||
     (props.$variant === "rounded" ? "600" : "500")};
