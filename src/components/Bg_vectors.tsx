@@ -17,6 +17,7 @@ const BackgroundVectors = styled.div`
   align-items: center;
   font-family: ${(props) => props.theme.fonts.family.poppins};
   color: ${(props) => props.theme.colors.textBlack};
+  overlfow-x: hidden;
 `;
 
 export default BackgroundVectors;

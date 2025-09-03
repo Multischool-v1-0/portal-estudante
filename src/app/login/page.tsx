@@ -18,6 +18,8 @@ const Content = styled.div`
   justify-content: flex-start;
   margin: 0 4rem 1.4rem;
   overflow-y: auto; 
+  overlfow-x: hidden;
+
 
   /* Ajustes para telas pequenas/teclado ativo */
   @media (max-height: 600px) {
