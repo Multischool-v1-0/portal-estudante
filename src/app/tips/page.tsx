@@ -12,7 +12,6 @@ const ImageTips = styled.div`
   height: 30vh;
   background: url(${TipsBg.src}) no-repeat center center;
   background-size: contain;
-  background-position: center;
   margin-top: 1rem;
   flex-shrink: 0;
 `;
@@ -22,9 +21,8 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: auto;
-  min-height: 0;
   margin: 1.2rem 0 0 0;
+  padding-bottom: 2rem;
 `;
 
 const Text = styled.div`
@@ -34,7 +32,6 @@ const Text = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 0;
 `;
 
 const Title = styled.h1`
@@ -58,7 +55,9 @@ const Btn = styled.div`
 
 export default function Tips() {
   return (
-    <BackgroundVectors>
+    <>
+      <BackgroundVectors> {/* background separado, atrás de tudo */}
+
       <Header
         variant="logo"
         logoComponent={<Icon width={40} height={50} />}
@@ -81,13 +80,14 @@ export default function Tips() {
         <Btn>
           <Button
             bgColor="primary"
-            textColor="background"
+            textColor="#FFFFFF"
             text="Percebido!"
             hasBorder={false}
             href="/explore"
           />
         </Btn>
       </Content>
-    </BackgroundVectors>
+      </BackgroundVectors>
+    </>
   );
 }

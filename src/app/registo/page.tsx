@@ -45,7 +45,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const [verificationMethod, setVerificationMethod] = useState<"sms" | "whatsapp">("sms");
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // Obter o nome da instituição da URL
+  // Obter o nome da instituição da URL (IN PROGRESS)
   const institutionSlug = params.institution as string;
   const institutionName = institutionMapping[institutionSlug] || "Instituição";
 
@@ -705,7 +705,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
         <ButtonContainer>
           <Button
             bgColor="primary"
-            textColor="background"
+            textColor="#FFFFFF"
             text={getButtonText()}
             hasBorder={false}
             onClick={handleNext}
@@ -841,11 +841,13 @@ const PhoneNumberInput = styled.input`
   color: #333;
   border-radius: 0 25px 25px 0;
   background: transparent;
+  font-size: 16px; /* evita o zoom no iOS */
 
   &:focus {
     outline: none;
   }
 `;
+
 
 // Verification Input Styles
 const VerificationInputContainer = styled.div`

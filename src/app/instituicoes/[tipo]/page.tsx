@@ -135,14 +135,21 @@ const SearchInput = styled.input`
   background: #e8e8e8;
   border: none;
   border-radius: 25px;
-  font-size: 15px;
+  font-size: 16px; /* ↑ evita o zoom automático no iOS */
   color: #666;
   font-weight: ${(props) => props.theme.fonts.weight.light};
+  outline: none; /* remove a borda azul ao focar */
 
   &::placeholder {
     color: #999;
   }
+
+  &:focus {
+    outline: none;   /* garante que não apareça */
+    box-shadow: none; /* remove qualquer sombra que alguns browsers aplicam */
+  }
 `;
+
 
 const SearchIcon = styled.div`
   position: absolute;

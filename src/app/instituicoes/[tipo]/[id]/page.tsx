@@ -841,7 +841,7 @@ export default function InstitutionDetailPage() {
           <ActionButtons>
             <Button
               bgColor="primary"
-              textColor="#6C5F8D"
+              textColor="#FFFFFF"
               text="Fazer matrícula"
               hasBorder={false}
               onClick={handleCoursesClick}
@@ -918,6 +918,7 @@ export default function InstitutionDetailPage() {
                     textColor="#6C5F8D"
                     text="+ Fazer matrícula"
                     hasBorder={true}
+                    onClick={handleCoursesClick}
                   />
                 </ModalButtons>
               </ModalInfo>

@@ -5,36 +5,38 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 
 const BackgroundImage = styled.div`
-  position: fixed;
+  position: absolute; /* ← troquei de fixed para absolute */
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100%; /* deixa crescer com o conteúdo */
   background: url(${bgImage.src}) no-repeat center center;
   background-size: cover;
-  z-index: -1; /* joga para trás do conteúdo */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 10000;
   font-family: ${(props) => props.theme.fonts.family.poppins};
-
   
   &::before {
     content: "";
     position: absolute;
     inset: 0;
     background: rgb(28, 28, 28, 69%);
+    z-index: -1;
   }
 `;
 
 const Content = styled.div`
-  position: relative;
   width: 100%;
   max-width: calc(100vw - 2rem);
-  min-height: 100vh; /* garante que sempre ocupa tela cheia */
+  min-height: 100vh; /* garante altura mínima da tela */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 1rem 2rem 1rem; /* espaço para botões/links */
+  padding: 0 1rem 2rem 1rem;
 `;
-
 
 const Title = styled.h1`
   color: ${(props) => props.theme.colors.textWhite};
@@ -75,7 +77,7 @@ const LinkContainer = styled.div`
   justify-content: center;
   text-align: center;
   margin-top: 1rem;
-  margin-bottom: 2rem; /* Adiciona margem bottom extra */
+  margin-bottom: 2rem;
 `;
 
 const StyledLink = styled(Link)`

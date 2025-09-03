@@ -4,14 +4,14 @@ import styled from "styled-components";
 import bgVectors from "@/assets/backgrounds/bg_vectors.svg";
 
 const BackgroundVectors = styled.div`
-  position: fixed;
+  position: absolute; /* ← trocado de fixed para absolute */
   inset: 0;
-  width: 100vw;
-  height: 100dvh;
+  width: 100%;
+  min-height: 100%; /* deixa crescer junto com o conteúdo */
   background: url(${bgVectors.src}) no-repeat center center;
   background-size: cover;
   background-position: center;
-  z-index: 10000;
+  z-index: -1; /* ↓ fica por trás do conteúdo */
   display: flex;
   flex-direction: column;
   align-items: center;

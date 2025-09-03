@@ -18,7 +18,7 @@ import Link from "next/link";
 import { CardOption, ContentSection } from "@/types/institutions";
 import { adjustColor } from "@/utils/colors";
 
-// Styled Components (mantendo os mesmos estilos)
+// Styled Components 
 const Content = styled.div`
   width: 100vw;
   height: 100vh;
@@ -99,6 +99,7 @@ const CardImage = styled.div<{ $image: string }>`
   background-size: cover;
   background-position: center;
   z-index: 1;
+  border-radius: 16px;
 `;
 
 const CardTitle = styled.h3`
