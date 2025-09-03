@@ -35,6 +35,7 @@ const ModalContainer = styled.div`
   max-width: 340px;
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  font-family: ${props => props.theme.fonts.family.poppins};
 `;
 
 const CloseButton = styled.button`
@@ -124,7 +125,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           <ConfirmButton>
             <Button
               bgColor="primary"
-              textColor="background"
+              textColor="#FFFFFF"
               text={confirmText}
               hasBorder={false}
               onClick={onConfirm}
@@ -134,7 +135,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           <CancelButton>
             <Button
               bgColor="background"
-              textColor="primary"
+              textColor="#6C5F8D"
               text={cancelText}
               hasBorder={true}
               onClick={onCancel}

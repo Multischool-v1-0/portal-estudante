@@ -118,8 +118,8 @@ const ExamForm: React.FC = () => {
         subtitle="Selecione uma data:"
         onContinue={handleContinue}
         onBack={handleBack}
-        profileName="Ana de Assis Correia Diogo"
-        profileSubtitle="ISPTEC - Inst. Sup. Pol. de Tec. e Ciências"
+        profileName="Nome indefinido"
+        profileSubtitle="Instituição de ensino selecionada"
       >
         {dateOptions.map((option) => (
           <OptionSelect
