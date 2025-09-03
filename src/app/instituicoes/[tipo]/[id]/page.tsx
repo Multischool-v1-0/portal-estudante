@@ -841,7 +841,7 @@ export default function InstitutionDetailPage() {
           <ActionButtons>
             <Button
               bgColor="primary"
-              textColor="background"
+              textColor="#6C5F8D"
               text="Fazer matrícula"
               hasBorder={false}
               onClick={handleCoursesClick}

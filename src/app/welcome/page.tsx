@@ -101,7 +101,7 @@ export default function Welcome() {
         <Buttons>
           <Button
             bgColor="primary"
-            textColor="background"
+            textColor="#FFFFFF"
             text="Fazer login"
             hasBorder={false}
             href="/login"
@@ -109,7 +109,7 @@ export default function Welcome() {
           />
           <Button
             bgColor="background"
-            textColor="primary"
+            textColor="#6C5F8D"
             text="Criar conta"
             href="/tips"
             hasBorder={false}
