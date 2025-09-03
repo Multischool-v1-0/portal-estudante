@@ -379,7 +379,7 @@ const Description = styled.p`
 
 const ActionButtons = styled.div`
   width: 100%;
-  margin: 40px 0 0 0;
+  margin: 40px 0 40px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;

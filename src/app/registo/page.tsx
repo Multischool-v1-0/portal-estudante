@@ -62,12 +62,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   });
 
   // Countdown para reenvio do código
-  useEffect(() => {
-    if (currentStep === 2 && countdown > 0) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [countdown, currentStep]);
+useEffect(() => {
+  if (currentStep === 3 && countdown > 0 && smsStatus === "sent") { // Adicionar condição smsStatus
+    const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    return () => clearTimeout(timer);
+  }
+}, [countdown, currentStep, smsStatus]); // Adicionar smsStatus como dependência
+
 
   const formatCountdown = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -76,47 +77,48 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   };
 
   // Função para enviar SMS
-  const sendVerificationCode = async (
-    phoneNumber: string,
-    method: "sms" | "whatsapp" = "sms"
-  ): Promise<boolean> => {
-    try {
-      const response = await fetch("/api/sms/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber,
-          action: "send",
-          method,
-        }),
-      });
+const sendVerificationCode = async (
+  phoneNumber: string,
+  method: "sms" | "whatsapp" = "sms"
+): Promise<boolean> => {
+  try {
+    const response = await fetch("/api/sms/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        phoneNumber,
+        action: "send",
+        method,
+      }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (data.success) {
-        setSmsStatus("sent");
-        setCountdown(600); // 10 minutos
-        return true;
-      } else {
-        setErrors((prev) => ({
-          ...prev,
-          verificationCode: data.error || "Erro ao enviar código",
-        }));
-        setSmsStatus("error");
-        return false;
-      }
-    } catch (error) {
-      console.error("Erro ao enviar código:", error);
+    if (data.success) {
+      setSmsStatus("sent");
+      setCountdown(120); // Alterar de 600 para 120 (2 minutos)
+      return true;
+    } else {
       setErrors((prev) => ({
         ...prev,
-        verificationCode: "Erro de conexão. Tente novamente.",
+        verificationCode: data.error || "Erro ao enviar código",
       }));
       setSmsStatus("error");
       return false;
     }
-  };
+  } catch (error) {
+    console.error("Erro ao enviar código:", error);
+    setErrors((prev) => ({
+      ...prev,
+      verificationCode: "Erro de conexão. Tente novamente.",
+    }));
+    setSmsStatus("error");
+    return false;
+  }
+};
+
 
   // Função para verificar código
   const verifyCode = async (
@@ -796,7 +798,7 @@ const PhoneInputContainer = styled.div`
 const PhoneLabel = styled.label`
   position: absolute;
   top: -8px;
-  left: 82px;
+  left: 85px;
   background-color: #fff;
   padding: 0 8px;
   font-size: 14px;
@@ -870,30 +872,32 @@ const VerificationLabel = styled.label`
 
 const VerificationInputs = styled.div<{ $hasError?: boolean }>`
   display: flex;
-  gap: 12px;
+  gap: 8px; // Reduzir de 12px para 8px
   justify-content: center;
   border: 2px solid ${({ $hasError }) => ($hasError ? "#dc2626" : "#e0e0e0")};
   border-radius: 28px;
-  padding: 20px;
+  padding: 16px 12px; // Reduzir padding horizontal
   background: ${(props) => props.theme?.colors?.background};
+  max-width: 100%; // Adicionar
+  overflow: hidden; // Adicionar
 `;
 
 const VerificationInput = styled.input`
-  width: 50px;
-  height: 50px;
+  width: 45px; // Reduzir de 50px para 45px
+  height: 45px; // Reduzir de 50px para 45px
   border: 2px solid #e0e0e0;
   border-radius: 12px;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px; // Reduzir de 20px para 18px
   font-weight: 600;
   color: #333;
   outline: none;
+  flex-shrink: 0; // Adicionar para evitar que diminua
 
   &:focus {
     border-color: #7c74af;
   }
 `;
-
 const VerificationText = styled.p`
   font-size: 14px;
   color: ${(props) => props.theme?.colors?.textBlack || "#666666"};
@@ -958,7 +962,12 @@ const ButtonContainer = styled.div`
   padding: 16px 0;
   margin-top: auto;
   margin-bottom: 20px;
+  width: 100%; // Adicionar
+  max-width: 100%; // Adicionar
+  overflow: hidden; // Adicionar
 `;
+
+
 
 // Ícones
 const UserIcon = () => (

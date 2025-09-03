@@ -573,7 +573,7 @@ const CourseDetailPage: React.FC = () => {
             </Button>
             <Button
               bgColor="primary"
-              textColor="background"
+              textColor="#FFFFFF"
               text="Fazer matrícula"
               href="/registo"
               hasBorder={false}

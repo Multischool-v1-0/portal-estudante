@@ -372,7 +372,7 @@ export default function Explore() {
             {selectedCard && (
               <Button
                 bgColor="primary"
-                textColor="background"
+                textColor="#FFFFFF"
                 text={isNavigating ? "Carregando..." : "Explorar"}
                 hasBorder={false}
                 onClick={handleExplore}
