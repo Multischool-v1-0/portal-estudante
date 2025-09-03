@@ -12,39 +12,29 @@ const BackgroundImage = styled.div`
   height: 100vh;
   background: url(${bgImage.src}) no-repeat center center;
   background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 10000;
+  z-index: -1; /* joga para trás do conteúdo */
   font-family: ${(props) => props.theme.fonts.family.poppins};
+
   
   &::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgb(28, 28, 28, 69%);
-    z-index: -1;
-    box-sizing: border-box;
   }
 `;
 
 const Content = styled.div`
+  position: relative;
   width: 100%;
   max-width: calc(100vw - 2rem);
-  min-height: 55vh;
-  height: auto; /* Allows content to grow */
-  max-height: 100vh; /* Limits to viewport height */
+  min-height: 100vh; /* garante que sempre ocupa tela cheia */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 1rem 0rem 1rem;
-  overflow-y: auto; /* Enables scrolling within Content */
-  position: relative; /* Ensures content stays within its container */
+  padding: 0 1rem 2rem 1rem; /* espaço para botões/links */
 `;
+
 
 const Title = styled.h1`
   color: ${(props) => props.theme.colors.textWhite};
