@@ -15,10 +15,6 @@ const CardContainer = styled.div<{ selected?: boolean }>`
   margin-bottom: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-
-  &:hover {
-    background: ${props => props.theme.colors.muted};
-  }
 `;
 
 const Title = styled.div`

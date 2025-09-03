@@ -12,8 +12,7 @@ const Container = styled.div`
   width: 90vw;
   margin: 0 auto;
   font-family: ${(props) => props.theme.fonts.family.poppins};
-  background-color: #f9fafb;
-  min-height: 100vh;
+  height: 120vh;
 `;
 
 const SectionTitle = styled.h2`

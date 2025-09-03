@@ -118,7 +118,7 @@ export const StepLayout: React.FC<StepLayoutProps> = ({
       <ContinueButton>
         <Button
           bgColor="primary"
-          textColor="background"
+          textColor="#FFFFFF"
           text="Continuar"
           hasBorder={false}
           onClick={onContinue}
