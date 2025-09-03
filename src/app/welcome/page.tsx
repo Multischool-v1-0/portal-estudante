@@ -1,5 +1,4 @@
 "use client";
-
 import styled from "styled-components";
 import bgImage from "@/assets/backgrounds/bg_welcome.jpeg";
 import Button from "@/components/ui/Button";
@@ -12,16 +11,14 @@ const BackgroundImage = styled.div`
   width: 100vw;
   height: 100vh;
   background: url(${bgImage.src}) no-repeat center center;
-  background-size: auto max(100%, 100vh);
-  background-position: center;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   z-index: 10000;
   font-family: ${(props) => props.theme.fonts.family.poppins};
-  overflow-y: auto; /* Permite scroll quando necessário */
-
+  
   &::before {
     content: "";
     position: absolute;
@@ -31,16 +28,22 @@ const BackgroundImage = styled.div`
     height: 100%;
     background: rgb(28, 28, 28, 69%);
     z-index: -1;
+    box-sizing: border-box;
   }
 `;
 
 const Content = styled.div`
-  width: 90vw;
-  height: 55vh;
+  width: 100%;
+  max-width: calc(100vw - 2rem);
+  min-height: 55vh;
+  height: auto; /* Allows content to grow */
+  max-height: 100vh; /* Limits to viewport height */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 0 4rem 1.4rem;
+  justify-content: flex-end;
+  padding: 0 1rem 0rem 1rem;
+  overflow-y: auto; /* Enables scrolling within Content */
+  position: relative; /* Ensures content stays within its container */
 `;
 
 const Title = styled.h1`
@@ -49,7 +52,7 @@ const Title = styled.h1`
   font-size: 2.5rem;
   margin-bottom: -0.6rem;
   line-height: 1.4;
-
+  
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -68,10 +71,10 @@ const Buttons = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  
   @media (max-width: 768px) {
-    gap: 1.5rem; /* Adiciona mais espaçamento entre botões em telas menores */
-    height: auto; /* Remove altura fixa para permitir o gap */
+    gap: 1.5rem;
+    height: auto;
   }
 `;
 
@@ -82,6 +85,7 @@ const LinkContainer = styled.div`
   justify-content: center;
   text-align: center;
   margin-top: 1rem;
+  margin-bottom: 2rem; /* Adiciona margem bottom extra */
 `;
 
 const StyledLink = styled(Link)`

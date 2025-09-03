@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import styled from "styled-components";
 import Header from "@/components/ui/HeaderWelcome";
@@ -11,11 +11,13 @@ import BackgroundVectors from "@/components/Bg_vectors";
 
 const Content = styled.div`
   width: 90vw;
-  height: 100vh;
+  min-height: 100vh; /* Ensures content takes full height and can grow */
+  max-height: 100dvh; /* Limits to viewport height for scrolling */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   margin: 0 4rem 1.4rem;
+  overflow-y: auto; 
 
   /* Ajustes para telas pequenas/teclado ativo */
   @media (max-height: 600px) {
@@ -28,14 +30,13 @@ const Content = styled.div`
 
 const Text = styled.div`
   width: 100%;
-  height: 25%;
+  height: auto; /* Removed fixed height to allow flexibility */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 2.8rem;
 
   @media (max-height: 600px) {
-    height: auto;
     margin-bottom: 1.5rem;
     gap: 1rem;
   }
@@ -50,27 +51,27 @@ const Description = styled.p`
 
 const Inputs = styled.div`
   width: 90vw;
-  height: 27%;
+  height: auto; /* Removed fixed height to allow flexibility */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 1.5rem; /* Added gap for better spacing */
 
   @media (max-height: 600px) {
-    height: auto;
     gap: 1.5rem;
   }
 `;
 
 const Links = styled.div`
   width: 90vw;
-  height: 23%;
+  height: auto; /* Removed fixed height to allow flexibility */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-top: 2.5rem;
+  gap: 1rem; /* Added gap for better spacing */
 
   @media (max-height: 600px) {
-    height: auto;
     margin-top: 2rem;
     gap: 1rem;
   }
@@ -89,7 +90,7 @@ const Title = styled.h1`
 
 const LinkContainer = styled.div`
   width: 100%;
-  height: 45%;
+  height: auto; /* Removed fixed height to allow flexibility */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -152,12 +153,12 @@ export default function Welcome() {
   const [password, setPassword] = useState("");
   return (
     <BackgroundVectors>
-      <Header
-        variant="logo"
-        logoComponent={<Icon width={40} height={50} />}
-        onBackClick={() => console.log("Voltar clicado")}
-      />
       <Content>
+        <Header
+          variant="logo"
+          logoComponent={<Icon width={40} height={50} />}
+          onBackClick={() => console.log("Voltar clicado")}
+        />
         <Text>
           <Title>Vamos começar a jornada!</Title>
           <Description>Inicie a sessão na sua conta</Description>
@@ -183,7 +184,7 @@ export default function Welcome() {
         <Links>
           <Button
             bgColor="primary"
-            textColor="background"
+            textColor="#FFFFFF"
             text="Fazer login"
             hasBorder={false}
             href="/login"
