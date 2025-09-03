@@ -49,7 +49,16 @@ const StyledButton = styled.button.withConfig({
   align-items: ${(props) => (props.$hasIcon ? "center" : "initial")};
   justify-content: ${(props) => (props.$hasIcon ? "center" : "initial")};
   gap: ${(props) => (props.$hasIcon ? "8px" : "0")};
-  text-decoration: none;
+
+  /* Propriedades para remover estilos de link */
+  text-decoration: none !important;
+  color: ${(props) => props.textColor} !important;
+
+  /* Reset de estilos padrão do botão */
+  background: none;
+  border: none;
+  font-family: inherit;
+
   font-weight: ${(props) =>
     props.theme?.fonts?.weight?.semibold ||
     (props.$variant === "rounded" ? "600" : "500")};
@@ -62,8 +71,6 @@ const StyledButton = styled.button.withConfig({
     }
     return props.bgColor;
   }};
-
-  color: ${(props) => props.textColor};
 
   border: ${(props) =>
     props.hasBorder
@@ -78,11 +85,22 @@ const StyledButton = styled.button.withConfig({
       props.$variant === "rounded"
         ? "0 8px 20px rgba(107, 70, 193, 0.3)"
         : "0 2px 4px rgba(0, 0, 0, 0.1)"};
+    color: ${(props) => props.textColor} !important;
   }
 
   &:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: ${(props) => props.textColor} !important;
+  }
+
+  &:focus {
+    color: ${(props) => props.textColor} !important;
+    outline: none;
+  }
+
+  &:visited {
+    color: ${(props) => props.textColor} !important;
   }
 
   &:disabled {
@@ -90,6 +108,13 @@ const StyledButton = styled.button.withConfig({
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+    color: ${(props) => props.textColor} !important;
+  }
+
+  /* Garantir que links filhos também não tenham estilos */
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
   }
 `;
 
