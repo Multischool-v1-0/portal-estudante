@@ -50,14 +50,26 @@ const StyledButton = styled.button.withConfig({
   justify-content: ${(props) => (props.$hasIcon ? "center" : "initial")};
   gap: ${(props) => (props.$hasIcon ? "8px" : "0")};
 
-  /* Propriedades para remover estilos de link */
-  text-decoration: none !important;
+  /* CORREÇÕES ESPECÍFICAS PARA DISPOSITIVOS MÓVEIS */
+  /* Força a cor do texto em todos os estados possíveis */
   color: ${(props) => props.textColor} !important;
+  text-decoration: none !important;
+  -webkit-text-decoration: none !important;
+  
+  /* Remove estilos de link do iOS/Safari */
+  -webkit-appearance: none !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
-  /* Reset de estilos padrão do botão */
+  /* Reset completo de estilos padrão */
   background: none;
   border: none;
   font-family: inherit;
+  text-align: center;
 
   font-weight: ${(props) =>
     props.theme?.fonts?.weight?.semibold ||
@@ -77,6 +89,16 @@ const StyledButton = styled.button.withConfig({
       ? `2px solid ${props.theme?.colors?.primary || "#6B46C1"}`
       : "none"};
 
+  /* Estados hover, active, focus, visited com !important */
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited,
+  &:link {
+    color: ${(props) => props.textColor} !important;
+    text-decoration: none !important;
+  }
+
   &:hover {
     transform: translateY(
       ${(props) => (props.$variant === "rounded" ? "-1px" : "0")}
@@ -85,22 +107,15 @@ const StyledButton = styled.button.withConfig({
       props.$variant === "rounded"
         ? "0 8px 20px rgba(107, 70, 193, 0.3)"
         : "0 2px 4px rgba(0, 0, 0, 0.1)"};
-    color: ${(props) => props.textColor} !important;
   }
 
   &:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: ${(props) => props.textColor} !important;
   }
 
   &:focus {
-    color: ${(props) => props.textColor} !important;
     outline: none;
-  }
-
-  &:visited {
-    color: ${(props) => props.textColor} !important;
   }
 
   &:disabled {
@@ -111,10 +126,16 @@ const StyledButton = styled.button.withConfig({
     color: ${(props) => props.textColor} !important;
   }
 
-  /* Garantir que links filhos também não tenham estilos */
-  a {
-    text-decoration: none !important;
+  /* Garantir que elementos filhos também não tenham estilos de link */
+  * {
     color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  /* Estilos específicos para WebKit (iOS Safari) */
+  @supports (-webkit-touch-callout: none) {
+    -webkit-tap-highlight-color: transparent;
+    color: ${(props) => props.textColor} !important;
   }
 `;
 
@@ -134,7 +155,13 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Previne comportamento padrão
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (disabled) return;
+    
     if (href) {
       router.push(href);
     }
@@ -152,6 +179,8 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       $hasIcon={!!icon}
       $variant={variant}
+      type="button"
+      role="button"
       {...props}
     >
       {iconPosition === "left" && icon}
