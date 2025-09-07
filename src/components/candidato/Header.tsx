@@ -7,6 +7,7 @@ interface HeaderProps {
 }
 
 const HeaderContainer = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,28 +18,30 @@ const HeaderContainer = styled.div`
 
 const BackButton = styled.button`
   position: absolute;
-  left: 0;
+  // bottom: 0;
+  left: 4%;
   background: none;
   border: none;
-  cursor: pointer;
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: ${(props) => props.theme.colors.background_2};
+  border-radius: 30px;
 
   &::before {
     content: "←";
-    font-size: 24px;
-    color: #6b7280;
+    font-size: 20px;
+    color: ${(props) => props.theme.colors.foreground};
     font-weight: 500;
   }
 `;
 
 const Title = styled.h1`
-  font-size: 17px;
+  font-size: 15px;
   font-weight: ${(props) => props.theme.fonts.weight.semibold};
   color: ${(props) => props.theme.colors.primary};
-  margin: 20px 0 0 0;
+  // margin: 20px 0 0 0;
   letter-spacing: 0.2px;
   text-align: center;
 `;

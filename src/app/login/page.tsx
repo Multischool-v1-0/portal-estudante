@@ -10,18 +10,12 @@ import { useState } from "react";
 import BackgroundVectors from "@/components/Bg_vectors";
 
 const Content = styled.div`
-  width: 90vw;
-  min-height: 100vh; /* Ensures content takes full height and can grow */
-  max-height: 100dvh; /* Limits to viewport height for scrolling */
+  width: 90%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 0 4rem 1.4rem;
-  overflow-y: auto; 
-  overlfow-x: hidden;
 
-
-  /* Ajustes para telas pequenas/teclado ativo */
   @media (max-height: 600px) {
     height: auto;
     min-height: 100vh;
@@ -30,6 +24,8 @@ const Content = styled.div`
   }
 `;
 
+
+
 const Text = styled.div`
   width: 100%;
   height: auto; /* Removed fixed height to allow flexibility */
@@ -37,8 +33,7 @@ const Text = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 2.8rem;
-
-  @media (max-height: 600px) {
+  background: #000 @media (max-height: 600px) {
     margin-bottom: 1.5rem;
     gap: 1rem;
   }
@@ -52,20 +47,19 @@ const Description = styled.p`
 `;
 
 const Inputs = styled.div`
-  width: 90vw;
+  width: 100%;
   height: auto; /* Removed fixed height to allow flexibility */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.5rem; /* Added gap for better spacing */
-
-  @media (max-height: 600px) {
+  background: #000 @media (max-height: 600px) {
     gap: 1.5rem;
   }
 `;
 
 const Links = styled.div`
-  width: 90vw;
+  width: 100%;
   height: auto; /* Removed fixed height to allow flexibility */
   display: flex;
   flex-direction: column;
@@ -92,7 +86,7 @@ const Title = styled.h1`
 
 const LinkContainer = styled.div`
   width: 100%;
-  height: auto; /* Removed fixed height to allow flexibility */
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -105,6 +99,7 @@ const StyledLink = styled(Link)`
   color: ${(props) => props.theme.colors.primary};
   font-weight: ${(props) => props.theme.fonts.weight.light};
   text-decoration: none;
+  margin-bottom: 10px
 `;
 
 const LinkMerge = styled.div`
@@ -156,11 +151,13 @@ export default function Welcome() {
   return (
     <BackgroundVectors>
       <Content>
-        <Header
-          variant="logo"
-          logoComponent={<Icon width={40} height={50} />}
-          onBackClick={() => console.log("Voltar clicado")}
-        />
+        {/* <Cab> */}
+          <Header
+            variant="logo"
+            logoComponent={<Icon width={40} height={50} />}
+            onBackClick={() => console.log("Voltar clicado")}
+          />
+        {/* </Cab> */}
         <Text>
           <Title>Vamos começar a jornada!</Title>
           <Description>Inicie a sessão na sua conta</Description>

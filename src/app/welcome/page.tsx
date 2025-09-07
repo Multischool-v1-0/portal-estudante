@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 
 const BackgroundImage = styled.div`
-  position: absolute; /* ← troquei de fixed para absolute */
+  position: absolute; 
   top: 0;
   left: 0;
   width: 100%;
@@ -40,7 +40,7 @@ const Content = styled.div`
 
 const Title = styled.h1`
   color: ${(props) => props.theme.colors.textWhite};
-  font-weight: ${(props) => props.theme.fonts.weight.bold};
+  font-weight: ${(props) => props.theme.fonts.weight.extrabold};
   font-size: 2.5rem;
   margin-bottom: -0.6rem;
   line-height: 1.4;

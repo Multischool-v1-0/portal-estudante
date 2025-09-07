@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from "react";
 import styled from "styled-components";
@@ -12,18 +12,28 @@ interface HeaderProps {
 }
 
 const HeaderContainer = styled.header`
-  width: 90vw;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 16px 20px;
+  justify-content:center;
+  align-items: center;
+  padding: 36px 0px;
   position: sticky;
   top: 0;
   z-index: 1;
-  min-height: 50px;
+  margin: 0 0 -30px 0;
+`;
+
+const Cab = styled.div`
+width: 90%;
+display: flex;
+justify-content; center;
+align-items: center;
 `;
 
 const LeftSection = styled.div`
   display: flex;
+  margin: 0 0 0 -5px;
+  padding: 0;
 `;
 
 const CenterSection = styled.div`
@@ -35,21 +45,24 @@ const CenterSection = styled.div`
 
 const RightSection = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 48px;
+  margin: 0;
+  padding: 0;
 `;
 
 const BackButton = styled.button`
+  all: unset;
   display: flex;
-  align-items: center;
+  padding: 0; /* elimina espaço interno */
+  margin: 0; /* elimina espaço externo */
   background: none;
   border: none;
+  cursor: pointer;
 
   svg {
     width: 24px;
     height: 24px;
     color: #374151;
+    display: block; /* remove espaço fantasma */
   }
 `;
 
@@ -63,8 +76,6 @@ const Title = styled.h1`
 
 const LogoContainer = styled.div`
   display: flex;
-  align-items: center;
-  padding-right: 0.8rem;
 `;
 
 // Componente do ícone de seta para esquerda
@@ -106,15 +117,17 @@ const Header: React.FC<HeaderProps> = ({
       case "logo":
         return (
           <>
-            <LeftSection>
-              <BackButton onClick={handleBackClick} aria-label="Voltar">
-                <ArrowLeftIcon />
-              </BackButton>
-            </LeftSection>
-            <CenterSection />
-            <RightSection>
-              <LogoContainer>{logoComponent}</LogoContainer>
-            </RightSection>
+            <Cab>
+              <LeftSection>
+                <BackButton onClick={handleBackClick} aria-label="Voltar">
+                  <ArrowLeftIcon />
+                </BackButton>
+              </LeftSection>
+              <CenterSection />
+              <RightSection>
+                <LogoContainer>{logoComponent}</LogoContainer>
+              </RightSection>
+            </Cab>
           </>
         );
 
