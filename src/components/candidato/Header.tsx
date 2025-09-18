@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 interface HeaderProps {
   variant?: "default" | "with-back";
+  text?: string;
   onBack?: () => void;
 }
 
@@ -14,6 +15,7 @@ const HeaderContainer = styled.div`
   position: relative;
   margin-bottom: 30px;
   padding: 20px 0;
+  // margin: 30px 0 0 0
 `;
 
 const BackButton = styled.button`
@@ -48,12 +50,13 @@ const Title = styled.h1`
 
 export const Header: React.FC<HeaderProps> = ({
   variant = "default",
+  text = "EXAME DE ACESSO 2025/26",
   onBack,
 }) => {
   return (
     <HeaderContainer>
       {variant === "with-back" && <BackButton onClick={onBack} />}
-      <Title>EXAME DE ACESSO 2025/26</Title>
+     {text &&  <Title>{text}</Title>}
     </HeaderContainer>
   );
 };

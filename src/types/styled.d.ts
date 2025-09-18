@@ -6,13 +6,18 @@ declare module 'styled-components' {
       primary: string
       primary_light: string
       primary_light_200: string
+      primary_light_100: string
+      primary_600: string
       secondary: string
       background: string
       background_2: string
+      background_3: string
       textWhite: string
       foreground: string
       muted: string
       textBlack: string
+      sucess: string
+      error: string
     }
     fonts: {
       family: {

@@ -4,7 +4,8 @@ interface HeroCardProps {
   imageUrl?: string;
   title: string;
   subtitle: string;
-  date: string;
+  badge?: string; // Nova prop para badge personalizado
+  badgeVariant?: 'date' | 'count' | 'custom'; // Tipo de badge
 }
 
 const HeroContainer = styled.div<{ imageUrl?: string }>`
@@ -25,12 +26,18 @@ const HeroContainer = styled.div<{ imageUrl?: string }>`
   justify-content: flex-end;
 `;
 
-const DateBadge = styled.div`
+const Badge = styled.div<{ variant: 'date' | 'count' | 'custom' }>`
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: ${(props) => props.theme.colors.secondary};
-  color: ${(props) => props.theme.colors.textBlack};
+  background-color: ${(props) => {
+    if (props.variant === 'date') return props.theme.colors.secondary;
+    if (props.variant === 'count') return  props.theme.colors.secondary; // Verde para contadores
+    return props.theme.colors.secondary; // Default
+  }};
+  color: ${(props) => {
+    return props.theme.colors.textBlack;
+  }};
   padding: 8px 18px;
   border-radius: 25px;
   font-size: 12px;
@@ -38,11 +45,18 @@ const DateBadge = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid ${(props) => props.theme.colors.background};
+  border: ${(props) => {
+    return `1px solid ${props.theme.colors.background}`;
+  }};
 
   &::before {
-    content: "📅";
+    content: ${(props) => {
+      if (props.variant === 'date') return '"📅"';
+      if (props.variant === 'count') return '"✓"';
+      return '""';
+    }};
     font-size: 12px;
+    ${(props) => props.variant === 'custom' ? 'display: none;' : ''}
   }
 `;
 
@@ -61,15 +75,36 @@ const HeroSubtitle = styled.p`
   font-weight: ${(props) => props.theme.fonts.weight.light};
 `;
 
+const getCurrentDate = () => {
+  const today = new Date();
+  return today.toLocaleDateString("pt-PT", {
+    day: "numeric",
+    month: "long"
+  });
+};
+
 export const HeroCard: React.FC<HeroCardProps> = ({
   imageUrl,
   title,
   subtitle,
-  date,
+  badge,
+  badgeVariant = 'date'
 }) => {
+  const getBadgeText = () => {
+    if (badge) return badge;
+    if (badgeVariant === 'date') return getCurrentDate();
+    return '';
+  };
+
+  const shouldShowBadge = badge || badgeVariant === 'date';
+
   return (
     <HeroContainer imageUrl={imageUrl}>
-      <DateBadge>{date}</DateBadge>
+      {shouldShowBadge && (
+        <Badge variant={badgeVariant}>
+          {getBadgeText()}
+        </Badge>
+      )}
       <div>
         <HeroTitle>{title}</HeroTitle>
         <HeroSubtitle>{subtitle}</HeroSubtitle>

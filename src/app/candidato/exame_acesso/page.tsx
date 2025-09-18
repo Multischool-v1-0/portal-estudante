@@ -5,16 +5,20 @@ import { StepLayout } from "@/components/candidato/StepExam";
 import { OptionSelect } from "@/components/OptionSelect";
 import { AlertModal } from "@/components/AlertModal";
 import styled from "styled-components";
+import { useRouter } from "next/navigation";
 
 const boldText = styled.span`
   font-weight: ${(props) => props.theme.fonts.weight.semibold};
 `;
 
 const ExamForm: React.FC = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [showAlert, setShowAlert] = useState(false);
+
+
 
   const courseOptions = [
     { id: "isptec-prep", title: "Curso preparatório ISPTEC + Exame de Acesso" },
@@ -58,14 +62,18 @@ const ExamForm: React.FC = () => {
     }
   };
 
-  const handleConfirmAlert = () => {
-    // Handle form submission
-    console.log("Form submitted:", {
-      course: selectedCourse,
-      date: selectedDate,
-    });
-    setShowAlert(false);
-    // Redirect or show success message
+  // const handleConfirmAlert = () => {
+  //   // Handle form submission
+  //   console.log("Form submitted:", {
+  //     course: selectedCourse,
+  //     date: selectedDate,
+  //   });
+  //   setShowAlert(false);
+  //   // Redirect or show success message
+  // };
+
+   const handleConfirmNavigation = () => {
+    router.push('pagamento');
   };
 
   const handleCancelAlert = () => {
@@ -103,7 +111,7 @@ const ExamForm: React.FC = () => {
           message={`O seu exame de acesso vai ser marcado para ${getSelectedDateText()}`}
           confirmText="Confirmar"
           cancelText="Cancelar"
-          onConfirm={handleConfirmAlert}
+          onConfirm={handleConfirmNavigation}
           onCancel={handleCancelAlert}
           onClose={handleCancelAlert}
         />
@@ -138,7 +146,7 @@ const ExamForm: React.FC = () => {
         message={`O seu exame de acesso vai ser marcado para ${getSelectedDateText()}`}
         confirmText="Confirmar"
         cancelText="Cancelar"
-        onConfirm={handleConfirmAlert}
+        onConfirm={handleConfirmNavigation}
         onCancel={handleCancelAlert}
         onClose={handleCancelAlert}
       />

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import styled from "styled-components";
 import PageContainer from "@/components/Losangos";
@@ -16,9 +16,9 @@ import Link from "next/link";
 
 // Importar tipos e utils
 import { CardOption, ContentSection } from "@/types/institutions";
-import { adjustColor } from "@/utils/colors";
+import { adjustColor } from "@/utils/colorss";
 
-// Styled Components 
+// Styled Components
 const Content = styled.div`
   width: 100vw;
   height: 100vh;
@@ -223,7 +223,7 @@ const cardOptions: CardOption[] = [
     available: 980,
     image: `${BgHs.src}`,
     bgColor: "#B8860B",
-    route: "ensino-medio"
+    route: "ensino-medio",
   },
   {
     id: "ensino-superior",
@@ -232,7 +232,7 @@ const cardOptions: CardOption[] = [
     available: 230,
     image: `${BgUni.src}`,
     bgColor: "#2E8B57",
-    route: "ensino-superior"
+    route: "ensino-superior",
   },
 ];
 
@@ -268,14 +268,16 @@ export default function Explore() {
 
   const handleExplore = async () => {
     if (selectedCard && !isNavigating) {
-      const selectedOption = cardOptions.find(card => card.id === selectedCard);
+      const selectedOption = cardOptions.find(
+        (card) => card.id === selectedCard
+      );
       if (selectedOption) {
         setIsNavigating(true);
-        
+
         try {
           await router.push(`/instituicoes/${selectedOption.route}`);
         } catch (error) {
-          console.error('Erro ao navegar:', error);
+          console.error("Erro ao navegar:", error);
           setIsNavigating(false);
         }
       }
@@ -283,7 +285,7 @@ export default function Explore() {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent, cardId: string) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       handleCardSelect(cardId);
     }
@@ -299,10 +301,10 @@ export default function Explore() {
   return (
     <PageContainer>
       <PrefetchLinks>
-        {cardOptions.map(card => (
-          <Link 
+        {cardOptions.map((card) => (
+          <Link
             key={`prefetch-${card.id}`}
-            href={`/instituicoes/${card.route}`} 
+            href={`/instituicoes/${card.route}`}
             prefetch={true}
           />
         ))}
@@ -313,10 +315,10 @@ export default function Explore() {
         logoComponent={<Icon width={40} height={50} />}
         onBackClick={() => router.back()}
       />
-      
+
       <Content>
         <Titulo>Selecione uma opção</Titulo>
-        
+
         <CardsContainer>
           {cardOptions.map((card) => (
             <Card
@@ -325,7 +327,7 @@ export default function Explore() {
               $bgColor={card.bgColor}
               onClick={() => handleCardSelect(card.id)}
               onKeyDown={(e) => handleKeyDown(e, card.id)}
-              className={isNavigating ? 'loading' : ''}
+              className={isNavigating ? "loading" : ""}
               role="button"
               tabIndex={0}
               aria-label={`Selecionar ${card.title} - ${card.subtitle}`}

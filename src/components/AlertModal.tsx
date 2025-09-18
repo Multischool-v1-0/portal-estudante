@@ -1,5 +1,11 @@
+import React from 'react';
 import styled from 'styled-components';
 import Button from './ui/Button';
+
+interface SortOption {
+  value: string;
+  label: string;
+}
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -7,9 +13,25 @@ interface AlertModalProps {
   message: string;
   confirmText?: string;
   cancelText?: string;
+  showCancelButton?: boolean;
   onConfirm: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
   onClose: () => void;
+  confirmButtonProps?: {
+    bgColor?: string;
+    textColor?: string;
+    hasBorder?: boolean;
+  };
+  cancelButtonProps?: {
+    bgColor?: string;
+    textColor?: string;
+    hasBorder?: boolean;
+  };
+  // Propriedades para variante de ordenação
+  variant?: 'default' | 'sort';
+  sortOptions?: SortOption[];
+  selectedSort?: string;
+  onSortChange?: (value: string) => void;
 }
 
 const Overlay = styled.div<{ isOpen: boolean }>`
@@ -54,7 +76,6 @@ const CloseButton = styled.button`
   justify-content: center;
   border-radius: 50%;
   transition: all 0.2s ease;
-
   &:hover {
     background: #f0f0f0;
     color: #666;
@@ -85,12 +106,43 @@ const ButtonContainer = styled.div`
   gap: 12px;
 `;
 
-const ConfirmButton = styled.div`
+const ButtonWrapper = styled.div`
   width: 100%;
 `;
 
-const CancelButton = styled.div`
-  width: 100%;
+// Estilos para a variante de ordenação
+const SortOptionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0 0 0;
+`;
+
+const SortOption = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #f8f9fa;
+  }
+`;
+
+const RadioInput = styled.input`
+  width: 18px;
+  height: 18px;
+  accent-color: ${props => props.theme.colors.primary};
+  cursor: pointer;
+`;
+
+const OptionLabel = styled.span`
+  font-size: 16px;
+  color: ${props => props.theme.colors.textBlack};
+  font-family: ${props => props.theme.fonts.family.poppins};
 `;
 
 export const AlertModal: React.FC<AlertModalProps> = ({
@@ -99,9 +151,25 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   message,
   confirmText = "Confirmar",
   cancelText = "Cancelar",
+  showCancelButton = true,
   onConfirm,
   onCancel,
-  onClose
+  onClose,
+  confirmButtonProps = {
+    bgColor: "primary",
+    textColor: "#FFFFFF",
+    hasBorder: false
+  },
+  cancelButtonProps = {
+    bgColor: "background",
+    textColor: "#6C5F8D",
+    hasBorder: true
+  },
+  // Props da variante de ordenação
+  variant = 'default',
+  sortOptions = [],
+  selectedSort = '',
+  onSortChange
 }) => {
   if (!isOpen) return null;
 
@@ -111,37 +179,78 @@ export const AlertModal: React.FC<AlertModalProps> = ({
     }
   };
 
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      onClose();
+    }
+  };
+
+  const handleSortOptionChange = (value: string) => {
+    if (onSortChange) {
+      onSortChange(value);
+      onClose(); // Fecha automaticamente após selecionar
+    }
+  };
+
+  const renderContent = () => {
+    if (variant === 'sort') {
+      return (
+        <SortOptionsContainer>
+          {sortOptions.map((option) => (
+            <SortOption key={option.value}>
+              <RadioInput
+                type="radio"
+                name="sortOption"
+                value={option.value}
+                checked={selectedSort === option.value}
+                onChange={() => handleSortOptionChange(option.value)}
+              />
+              <OptionLabel>{option.label}</OptionLabel>
+            </SortOption>
+          ))}
+        </SortOptionsContainer>
+      );
+    }
+
+    return (
+      <>
+        {message && <Message>{message}</Message>}
+        <ButtonContainer>
+          <ButtonWrapper>
+            <Button
+              bgColor={confirmButtonProps.bgColor}
+              textColor={confirmButtonProps.textColor}
+              text={confirmText}
+              hasBorder={confirmButtonProps.hasBorder}
+              onClick={onConfirm}
+            />
+          </ButtonWrapper>
+          {showCancelButton && (
+            <ButtonWrapper>
+              <Button
+                bgColor={cancelButtonProps.bgColor}
+                textColor={cancelButtonProps.textColor}
+                text={cancelText}
+                hasBorder={cancelButtonProps.hasBorder}
+                onClick={handleCancel}
+              />
+            </ButtonWrapper>
+          )}
+        </ButtonContainer>
+      </>
+    );
+  };
+
   return (
     <Overlay isOpen={isOpen} onClick={handleOverlayClick}>
       <ModalContainer>
         <CloseButton onClick={onClose}>
           ×
         </CloseButton>
-        
         <Title>{title}</Title>
-        <Message>{message}</Message>
-        
-        <ButtonContainer>
-          <ConfirmButton>
-            <Button
-              bgColor="primary"
-              textColor="#FFFFFF"
-              text={confirmText}
-              hasBorder={false}
-              onClick={onConfirm}
-            />
-          </ConfirmButton>
-          
-          <CancelButton>
-            <Button
-              bgColor="background"
-              textColor="#6C5F8D"
-              text={cancelText}
-              hasBorder={true}
-              onClick={onCancel}
-            />
-          </CancelButton>
-        </ButtonContainer>
+        {renderContent()}
       </ModalContainer>
     </Overlay>
   );

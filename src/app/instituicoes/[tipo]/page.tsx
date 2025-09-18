@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import Header from "@/components/ui/HeaderWelcome";
 
 // Importar tipos e utils
 import { Institution, InstituicaoData } from "@/types/institutions";
-import { isDarkColor } from "@/utils/colors";
+import { isDarkColor } from "@/utils/colorss";
 
 // Dados mockados com cores definidas
 const instituicoesData: Record<string, InstituicaoData> = {
@@ -145,11 +145,10 @@ const SearchInput = styled.input`
   }
 
   &:focus {
-    outline: none;   /* garante que não apareça */
+    outline: none; /* garante que não apareça */
     box-shadow: none; /* remove qualquer sombra que alguns browsers aplicam */
   }
 `;
-
 
 const SearchIcon = styled.div`
   position: absolute;
@@ -299,7 +298,7 @@ export default function InstituicoesPage() {
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 800); // Simular tempo de busca
-      
+
       return () => clearTimeout(timer);
     } else {
       setIsLoading(false);
@@ -351,11 +350,7 @@ export default function InstituicoesPage() {
 
   return (
     <PageContainer>
-      <Header
-        variant="text"
-        title={data.title}
-        onBackClick={handleBackClick}
-      />
+      <Header variant="text" title={data.title} onBackClick={handleBackClick} />
       <Container>
         <Content>
           <SearchContainer>
@@ -371,7 +366,11 @@ export default function InstituicoesPage() {
           <FilterSection>
             <FilterText onClick={handleFilterClick}>Ordenar por:</FilterText>
             <ResultsCount>
-              {isLoading ? "..." : `${filteredInstitutions.length} resultado${filteredInstitutions.length !== 1 ? "s" : ""}`}
+              {isLoading
+                ? "..."
+                : `${filteredInstitutions.length} resultado${
+                    filteredInstitutions.length !== 1 ? "s" : ""
+                  }`}
             </ResultsCount>
           </FilterSection>
 
@@ -403,12 +402,14 @@ export default function InstituicoesPage() {
                 </InstitutionCard>
               ))}
 
-              {filteredInstitutions.length === 0 && searchTerm && !isLoading && (
-                <ErrorMessage>
-                  <h3>Nenhum resultado encontrado</h3>
-                  <p>Tente pesquisar com termos diferentes</p>
-                </ErrorMessage>
-              )}
+              {filteredInstitutions.length === 0 &&
+                searchTerm &&
+                !isLoading && (
+                  <ErrorMessage>
+                    <h3>Nenhum resultado encontrado</h3>
+                    <p>Tente pesquisar com termos diferentes</p>
+                  </ErrorMessage>
+                )}
             </InstitutionsList>
           )}
         </Content>
