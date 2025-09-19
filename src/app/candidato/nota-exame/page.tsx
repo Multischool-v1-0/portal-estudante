@@ -187,7 +187,7 @@ const ExamResultScreen: React.FC = () => {
         />
         <Button
           bgColor="#6C5F8D"
-          textColor="background"
+          textColor="#FFFFFF"
           text="Aceder ao dashboard"
           hasBorder={true}
           onClick={handleClickDashboard}

@@ -4,20 +4,21 @@ export const mockEnrollments: Enrollment[] = [
   {
     id: "enr-1",
     studentId: "stu-1",
-    institution: "ISPTEC",
-    faculdade: "Engenharia e Tecnologia",
-    course: "Engenharia Informática",
+    institution: "Universidade Agostinho Neto",
+    faculdade: "Ciências Exactas",
+    course: "c-1", // Engenharia Informática
     period: "Manhã",
     studyLevel: "Ensino Superior",
-    enrolledAt: "2025-08-01",
+    enrolledAt: "2025-09-15T08:30:00Z",
   },
   {
     id: "enr-2",
     studentId: "stu-2",
-    institution: "IMIL",
-    course: "Técnico de Contabilidade",
-    period: "Tarde",
-    studyLevel: "Ensino Médio",
-    enrolledAt: "2025-08-02",
+    institution: "Universidade Católica",
+    faculdade: "Ciências Sociais",
+    course: "c-2", // Gestão de Empresas
+    period: "Noite",
+    studyLevel: "Ensino Superior",
+    enrolledAt: "2025-09-16T10:00:00Z",
   },
 ];

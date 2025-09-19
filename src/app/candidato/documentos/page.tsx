@@ -89,7 +89,6 @@ interface Document {
   name: string;
 }
 
-
 const DocumentosScreen: React.FC = () => {
   const estudante = mockStudents.find((s) => s.id === "stu-1");
   const router = useRouter();
@@ -124,6 +123,7 @@ const DocumentosScreen: React.FC = () => {
 
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState<SortOption>("date");
+
 
   // Opções de ordenação
   const sortOptions: SortOptionData[] = [

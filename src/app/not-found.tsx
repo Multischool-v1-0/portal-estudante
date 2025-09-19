@@ -121,59 +121,6 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const Button = styled.button`
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 15px 30px;
-  border-radius: 30px;
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  animation: ${pulse} 3s infinite;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  }
-  
-  &:active {
-    transform: translateY(-1px);
-  }
-`;
-
-const DecorativeText = styled.div`
-  position: absolute;
-  font-size: 1.5rem;
-  opacity: 0.1;
-  font-weight: bold;
-  animation: ${fadeIn} 2s ease 2s both;
-  
-  &.top-left {
-    top: 10%;
-    left: 10%;
-  }
-  
-  &.top-right {
-    top: 15%;
-    right: 10%;
-  }
-  
-  &.bottom-left {
-    bottom: 15%;
-    left: 15%;
-  }
-  
-  &.bottom-right {
-    bottom: 10%;
-    right: 15%;
-  }
-`;
-
 export default function NotFound() {
   const handleGoHome = () => {
     window.location.href = '/';

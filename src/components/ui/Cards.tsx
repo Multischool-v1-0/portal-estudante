@@ -58,7 +58,7 @@ const SchoolName = styled.h2`
   font-weight: 500;
   margin: 0;
   opacity: 0.9;
-  font-family: "montserrat";
+  font-family: ${(props) => props.theme.fonts.family.poppins};
 `;
 
 const ChipContainer = styled.div`
@@ -83,7 +83,7 @@ const CardNumber = styled.div`
   margin-bottom: 25px;
   opacity: 0.9;
   letter-spacing: 1px;
-  font-family: "montserrat";
+  font-family: ${(props) => props.theme.fonts.family.poppins};
 `;
 
 const Balance = styled.div`
@@ -211,8 +211,8 @@ const MultiSchoolBrand = styled.div`
 `;
 
 const QRCodeContainer = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   background: white;
   border-radius: 5px;
   display: flex;
@@ -222,8 +222,8 @@ const QRCodeContainer = styled.div`
 `;
 
 const QRCodePlaceholder = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: #000;
   border-radius: 4px;
   display: flex;

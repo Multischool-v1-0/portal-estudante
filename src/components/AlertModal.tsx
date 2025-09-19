@@ -11,6 +11,7 @@ interface AlertModalProps {
   isOpen: boolean;
   title: string;
   message: string;
+  imageUrl?: string; // agora opcional
   confirmText?: string;
   cancelText?: string;
   showCancelButton?: boolean;
@@ -27,8 +28,7 @@ interface AlertModalProps {
     textColor?: string;
     hasBorder?: boolean;
   };
-  // Propriedades para variante de ordenação
-  variant?: 'default' | 'sort';
+  variant?: 'default' | 'sort' | 'image'; // variante com imagem opcional
   sortOptions?: SortOption[];
   selectedSort?: string;
   onSortChange?: (value: string) => void;
@@ -52,13 +52,28 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 const ModalContainer = styled.div`
   background: white;
   border-radius: 20px;
-  padding: 30px 24px 24px;
+  padding: 24px; /* padding normal para título, mensagem e botões */
   width: 100%;
   max-width: 340px;
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   font-family: ${props => props.theme.fonts.family.poppins};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
 `;
+
+const Image = styled.img`
+  width: calc(100% + 48px);        /* ultrapassa o padding lateral da modal (24px de cada lado) */
+  height: 270px;                   /* altura maior */
+  object-fit: cover;               /* cobre toda a área sem distorcer */
+  display: block;     
+  margin: -24px -24px 16px -24px;  /* ultrapassa o padding da modal */
+  border-top-left-radius: 20px;    /* mantém cantos arredondados do topo */
+  border-top-right-radius: 20px;
+`;
+
 
 const CloseButton = styled.button`
   position: absolute;
@@ -76,20 +91,21 @@ const CloseButton = styled.button`
   justify-content: center;
   border-radius: 50%;
   transition: all 0.2s ease;
-  &:hover {
     background: #f0f0f0;
     color: #666;
-  }
+  
 `;
 
 const Title = styled.h3`
   font-size: 20px;
   font-weight: 600;
   color: ${props => props.theme.colors.primary};
-  margin: 0 0 16px 0;
+  margin: 16px 0 16px 0;
   text-align: center;
   font-family: ${props => props.theme.fonts.family.poppins};
 `;
+
+
 
 const Message = styled.p`
   font-size: 16px;
@@ -101,6 +117,7 @@ const Message = styled.p`
 `;
 
 const ButtonContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -110,7 +127,6 @@ const ButtonWrapper = styled.div`
   width: 100%;
 `;
 
-// Estilos para a variante de ordenação
 const SortOptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -126,7 +142,7 @@ const SortOption = styled.label`
   padding: 12px;
   border-radius: 8px;
   transition: background-color 0.2s ease;
-  
+
   &:hover {
     background-color: #f8f9fa;
   }
@@ -149,6 +165,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   title,
   message,
+  imageUrl,
   confirmText = "Confirmar",
   cancelText = "Cancelar",
   showCancelButton = true,
@@ -165,7 +182,6 @@ export const AlertModal: React.FC<AlertModalProps> = ({
     textColor: "#6C5F8D",
     hasBorder: true
   },
-  // Props da variante de ordenação
   variant = 'default',
   sortOptions = [],
   selectedSort = '',
@@ -190,7 +206,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   const handleSortOptionChange = (value: string) => {
     if (onSortChange) {
       onSortChange(value);
-      onClose(); // Fecha automaticamente após selecionar
+      onClose();
     }
   };
 
@@ -198,7 +214,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
     if (variant === 'sort') {
       return (
         <SortOptionsContainer>
-          {sortOptions.map((option) => (
+          {sortOptions.map(option => (
             <SortOption key={option.value}>
               <RadioInput
                 type="radio"
@@ -216,6 +232,9 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
     return (
       <>
+        {/* imagem só se variante for 'image' */}
+        {variant === 'image' && imageUrl && <Image src={imageUrl} alt="Alert illustration" />}
+        <Title>{title}</Title>
         {message && <Message>{message}</Message>}
         <ButtonContainer>
           <ButtonWrapper>
@@ -246,10 +265,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   return (
     <Overlay isOpen={isOpen} onClick={handleOverlayClick}>
       <ModalContainer>
-        <CloseButton onClick={onClose}>
-          ×
-        </CloseButton>
-        <Title>{title}</Title>
+        <CloseButton onClick={onClose}>×</CloseButton>
         {renderContent()}
       </ModalContainer>
     </Overlay>

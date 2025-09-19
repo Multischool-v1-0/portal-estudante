@@ -105,7 +105,7 @@ export default function Instituicao() {
             title="Confirmação"
             link="confirmacao"
           />
-          <PaymentCard icon={Propinas.src} title="Alimentação" link="instituicao" />
+          <PaymentCard icon={Propinas.src} title="Propinas" link="propinas" />
           <PaymentCard
             icon={Taxas.src}
             title="Transporte"
