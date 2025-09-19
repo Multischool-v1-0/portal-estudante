@@ -5,6 +5,13 @@ import BottomMenu from "@/components/ui/BottomMenu";
 import Header from "@/components/ui/HeaderGeneral";
 import { mockInstitutions } from "@/mocks/institutions";
 import UserAvatar from "@/components/ui/Avatar";
+import PaymentCard from "@/components/ui/CardsLista";
+import Confirmacao from "@/assets/icons/cardsList/confirmacao.png";
+import Propinas  from "@/assets/icons/cardsList/propinas.png";
+import Taxas from "@/assets/icons/cardsList/taxas.png";
+import Exames from "@/assets/icons/cardsList/exames.png";
+import Declaracoes from "@/assets/icons/cardsList/declaracoes.png";
+
 
 // Styled Components
 const Container = styled.div`
@@ -53,7 +60,25 @@ const Text2 = styled.p`
   color: ${(props) => props.theme.colors.foreground};
 `;
 
-export default function Pagamentos() {
+const ListaP = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: 20px 0 0 0;
+`;
+
+const Title = styled.p`
+  font-size: 15px;
+`;
+
+const Row = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 15px;
+  gap: 16px;
+`;
+export default function Instituicao() {
   // exemplo: pega a primeira instituição
   const institution = mockInstitutions[0];
 
@@ -72,6 +97,27 @@ export default function Pagamentos() {
           <Text2>{institution.location}</Text2>
         </Texts>
       </Info>
+      <ListaP>
+        <Title>Lista de Pagamentos</Title>
+        <Row>
+          <PaymentCard
+            icon={Confirmacao.src}
+            title="Confirmação"
+            link="confirmacao"
+          />
+          <PaymentCard icon={Propinas.src} title="Alimentação" link="instituicao" />
+          <PaymentCard
+            icon={Taxas.src}
+            title="Transporte"
+            link="transporte"
+          />
+        </Row>
+        <Row>
+          <PaymentCard icon={Exames.src} title="Cursos" link="cursos" />
+          <PaymentCard icon={Declaracoes.src} title="Fit-student" link="fit-student" />
+        </Row>
+      </ListaP>
+      <BottomMenu />
     </Container>
   );
 }

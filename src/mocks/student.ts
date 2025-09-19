@@ -1,4 +1,5 @@
 import { Student } from "@/types/student";
+import Ana from "@/assets/student/avatar.png"
 
 export const mockStudents: Student[] = [
   {
@@ -9,7 +10,7 @@ export const mockStudents: Student[] = [
     bilheteIdentidade: "00654321LA042",
     declaracaoMedio: undefined,
     certificadoSuperior: "/files/certificados/ana.pdf",
-    profilePhoto: "/images/students/ana.jpg",
+    profilePhoto: Ana,
   },
   {
     id: "stu-2",

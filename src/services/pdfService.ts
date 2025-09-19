@@ -9,6 +9,9 @@ export interface Transaction {
 export interface UserInfo {
   fullName: string;
   accountType?: string;
+  address?: string;
+  city?: string;
+  country?: string;
 }
 
 class PDFService {
@@ -30,7 +33,7 @@ class PDFService {
     return { credits, debits, balance };
   }
 
-  // Método que REALMENTE baixa um arquivo
+  // Método que REALMENTE baixa um arquivo com design moderno
   public downloadExtract(user: UserInfo, transactions: Transaction[]): void {
     const { credits, debits, balance } = this.calculateSummary(transactions);
     
@@ -74,74 +77,426 @@ class PDFService {
     this.forceDownload(extractContent, this.generateFileName(user.fullName, 'txt'));
   }
 
-  // Método alternativo - HTML bonito para impressão
-  public downloadHTMLExtract(user: UserInfo, transactions: Transaction[]): void {
+  // Método com design moderno inspirado no invoice
+  public downloadModernExtract(user: UserInfo, transactions: Transaction[]): void {
     const { credits, debits, balance } = this.calculateSummary(transactions);
+    const currentDate = new Date();
+    const extractId = Math.random().toString(36).substring(2, 10).toUpperCase();
     
     const htmlContent = `<!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Extracto - ${user.fullName}</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        .info { background: #f5f5f5; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
-        .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .table th, .table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .table th { background: #f0f0f0; font-weight: bold; }
-        .positive { color: #28a745; font-weight: bold; }
-        .negative { color: #dc3545; font-weight: bold; }
-        .summary { background: #f8f9fa; padding: 15px; border-radius: 5px; border: 2px solid #dee2e6; }
-        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }
-        @media print { body { margin: 0; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: 100px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .company-name {
+            color: white;
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .company-tagline {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .invoice-title {
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            text-align: right;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .invoice-date {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: right;
+            font-size: 18px;
+            margin-top: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .client-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .client-details h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .client-details p {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .extract-number {
+            text-align: right;
+        }
+        
+        .extract-number h4 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .extract-number p {
+            color: #ff6b35;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .transactions-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .transactions-table th {
+            padding: 20px;
+            text-align: left;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .transactions-table th:last-child {
+            text-align: right;
+        }
+        
+        .transactions-table td {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+        }
+        
+        .transactions-table tbody tr:hover {
+            background: #f8f9ff;
+        }
+        
+        .transaction-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .transaction-date {
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .amount-positive {
+            color: #28a745;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .amount-negative {
+            color: #dc3545;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .summary-title {
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 18px;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            border-top: 2px solid #ff6b35;
+            margin-top: 10px;
+            padding-top: 20px;
+            font-weight: 700;
+            font-size: 20px;
+        }
+        
+        .summary-label {
+            color: #495057;
+        }
+        
+        .summary-value {
+            font-weight: 600;
+        }
+        
+        .summary-value.positive {
+            color: #28a745;
+        }
+        
+        .summary-value.negative {
+            color: #dc3545;
+        }
+        
+        .summary-value.balance {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+        }
+        
+        .footer p {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .print-info {
+            color: #ff6b35;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .invoice-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .print-info {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .client-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .invoice-title {
+                font-size: 36px;
+                text-align: left;
+                margin-top: 20px;
+            }
+            
+            .transactions-table th,
+            .transactions-table td {
+                padding: 15px 10px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>EXTRACTO DE MOVIMENTOS</h1>
-        <p>Multischool</p>
-    </div>
-    
-    <div class="info">
-        <p><strong>Nome:</strong> ${user.fullName}</p>
-        <p><strong>Conta:</strong> ${user.accountType || 'Multischool'}</p>
-        <p><strong>Data de emissão:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
-        <p><strong>Hora de emissão:</strong> ${new Date().toLocaleTimeString('pt-BR')}</p>
-    </div>
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Data</th>
-                <th style="text-align: right;">Montante</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${transactions.map(transaction => `
-                <tr>
-                    <td>${transaction.title}</td>
-                    <td>${transaction.date}</td>
-                    <td class="${transaction.isPositive ? 'positive' : 'negative'}" style="text-align: right;">
-                        ${transaction.amount}
-                    </td>
-                </tr>
-            `).join('')}
-        </tbody>
-    </table>
-    
-    <div class="summary">
-        <h3>Resumo Financeiro</h3>
-        <p><strong>Total Créditos:</strong> <span class="positive">+${credits.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} kz</span></p>
-        <p><strong>Total Débitos:</strong> <span class="negative">-${debits.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} kz</span></p>
-        <p><strong>Saldo Final:</strong> <span class="${balance >= 0 ? 'positive' : 'negative'}">${balance >= 0 ? '+' : ''}${balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} kz</span></p>
-    </div>
-    
-    <div class="footer">
-        <p>Documento gerado automaticamente pela plataforma Multischool</p>
-        <p>Para converter em PDF: Ctrl+P → Destino: Salvar como PDF</p>
-        <p>ID: ${Math.random().toString(36).substring(2, 10).toUpperCase()}</p>
+    <div class="invoice-container">
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">MS</div>
+                <div>
+                    <div class="company-name">Multischool</div>
+                    <div class="company-tagline">Sistema de Gestão Escolar</div>
+                </div>
+            </div>
+            <div class="invoice-title">EXTRACTO</div>
+            <div class="invoice-date">${currentDate.toLocaleDateString('pt', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}</div>
+        </div>
+        
+        <div class="content">
+            <div class="client-info">
+                <div class="client-details">
+                    <h3>PARA:</h3>
+                    <p><strong>${user.fullName}</strong></p>
+                    <p>${user.accountType || 'Conta Multischool'}</p>
+                    ${user.address ? `<p>${user.address}</p>` : ''}
+                    ${user.city ? `<p>${user.city}, ${user.country || 'Angola'}</p>` : ''}
+                </div>
+                <div class="extract-number">
+                    <h4>EXTRACTO Nº</h4>
+                    <p>EXT.${extractId}</p>
+                    <h4 style="margin-top: 20px;">DATA DE EMISSÃO</h4>
+                    <p>${currentDate.toLocaleDateString('pt-BR')}</p>
+                </div>
+            </div>
+            
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>DESCRIÇÃO</th>
+                        <th>DATA</th>
+                        <th>MONTANTE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${transactions.map(transaction => `
+                        <tr>
+                            <td>
+                                <div class="transaction-title">${transaction.title}</div>
+                            </td>
+                            <td>
+                                <div class="transaction-date">${transaction.date}</div>
+                            </td>
+                            <td style="text-align: right;">
+                                <div class="${transaction.isPositive ? 'amount-positive' : 'amount-negative'}">
+                                    ${transaction.amount}
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+            
+            <div class="summary-section">
+                <h3 class="summary-title">Resumo Financeiro</h3>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Total de Créditos</span>
+                    <span class="summary-value positive">+${credits.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} kz</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Total de Débitos</span>
+                    <span class="summary-value negative">-${debits.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} kz</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label">SALDO FINAL</span>
+                    <span class="summary-value balance">
+                        ${balance >= 0 ? '+' : ''}${balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} kz
+                    </span>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>Documento gerado automaticamente pela plataforma Multischool</p>
+                <p>ID do Documento: ${extractId} | Gerado em ${currentDate.toLocaleString('pt-BR')}</p>
+                <p class="print-info">Para converter em PDF: Ctrl+P → Destino: Salvar como PDF</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>`;
@@ -182,7 +537,7 @@ class PDFService {
       // Fallback extremo: abrir em nova aba
       const newWindow = window.open('', '_blank');
       if (newWindow) {
-        newWindow.document.write(`<pre>${content}</pre>`);
+        newWindow.document.write(content);
         newWindow.document.close();
       }
       
@@ -210,22 +565,25 @@ class PDFService {
 // Instância singleton
 export const pdfService = new PDFService();
 
-// Hook personalizado
+// Hook personalizado com novo método
 export const usePDFGenerator = () => {
+  const generateModernExtract = async (user: UserInfo, transactions: Transaction[]) => {
+    try {
+      // Usa o novo design moderno
+      pdfService.downloadModernExtract(user, transactions);
+      return { success: true };
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Erro no download' 
+      };
+    }
+  };
+
   const generateExtract = async (user: UserInfo, transactions: Transaction[]) => {
     try {
-      // Tenta HTML primeiro (mais bonito)
-      pdfService.downloadHTMLExtract(user, transactions);
-      
-      // Pequeno delay e tenta texto também como backup
-      setTimeout(() => {
-        try {
-          pdfService.downloadExtract(user, transactions);
-        } catch (e) {
-          console.log('Backup download failed, but HTML should work');
-        }
-      }, 1000);
-      
+      // Usa o design moderno por padrão
+      pdfService.downloadModernExtract(user, transactions);
       return { success: true };
     } catch (error) {
       return { 
@@ -247,5 +605,5 @@ export const usePDFGenerator = () => {
     }
   };
 
-  return { generateExtract, downloadTextOnly };
+  return { generateModernExtract, generateExtract, downloadTextOnly };
 };

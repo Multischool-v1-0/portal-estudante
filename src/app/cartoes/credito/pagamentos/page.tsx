@@ -37,7 +37,7 @@ const Title = styled.p`
   font-size: 15px;
 `;
 
-const Row1 = styled.div`
+const Row = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -101,7 +101,7 @@ export default function Pagamentos() {
       </Top>
       <ListaP>
         <Title>Lista de Pagamentos</Title>
-        <Row1>
+        <Row>
           <PaymentCard
             icon={Unicon.src}
             title="Instituição"
@@ -113,8 +113,8 @@ export default function Pagamentos() {
             title="Transporte"
             link="transporte"
           />
-        </Row1>
-        <Row1>
+        </Row>
+        <Row>
           <PaymentCard icon={Cursos.src} title="Cursos" link="cursos" />
           <PaymentCard icon={Fit.src} title="Fit-student" link="fit-student" />
           <PaymentCard
@@ -122,7 +122,7 @@ export default function Pagamentos() {
             title="Transferências"
             link="transferencias"
           />
-        </Row1>
+        </Row>
       </ListaP>
       <Pendentes>
         <Title>Pendentes</Title>

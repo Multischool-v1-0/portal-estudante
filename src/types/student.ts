@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export interface Student {
   id: string;
   fullName: string;
@@ -6,5 +8,5 @@ export interface Student {
   bilheteIdentidade: string;
   declaracaoMedio?: string;  
   certificadoSuperior?: string;  
-  profilePhoto?: string;      
+  profilePhoto?: string | StaticImageData;      
 }
